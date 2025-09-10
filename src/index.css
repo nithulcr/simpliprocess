@@ -11,3 +11,16 @@ html, body, #root {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: #f8fafc;
 }
+
+.react-flow__node-custom {
+  pointer-events: all;
+  /* Ensure custom node background and text color are applied */
+  background-color: var(--node-bg-color, transparent) !important; /* Use CSS variable for background */
+  color: var(--node-text-color, inherit) !important; /* Use CSS variable for text color */
+}
+
+/* Target the inner div of custom nodes if necessary */
+.react-flow__node-custom > div {
+  background-color: inherit !important; /* Ensure inner div doesn't override */
+  color: inherit !important; /* Ensure inner div doesn't override */
+}

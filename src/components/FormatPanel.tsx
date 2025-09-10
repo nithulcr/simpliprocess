@@ -44,11 +44,18 @@ const FormatPanel = ({ node, onNodeDataChange }: { node: Node | null; onNodeData
                 <details open>
                     <summary className="font-medium cursor-pointer">Style</summary>
                     <div className="mt-2 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">Color</label>
+                        <label className="block text-sm font-medium text-gray-700">Background Color</label>
                         <input 
                             type="color"
                             value={node?.data?.color || '#ffffff'}
                             onChange={(e) => onNodeDataChange(node.id, { color: e.target.value })}
+                            className="mt-1 block w-full h-10"
+                        />
+                        <label className="block text-sm font-medium text-gray-700">Text Color</label>
+                        <input 
+                            type="color"
+                            value={node?.data?.textColor || '#000000'}
+                            onChange={(e) => onNodeDataChange(node.id, { textColor: e.target.value })}
                             className="mt-1 block w-full h-10"
                         />
                     </div>

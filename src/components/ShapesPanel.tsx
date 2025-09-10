@@ -31,6 +31,13 @@ const ShapesPanel = () => {
             <div className="space-y-2">
                 <div 
                     className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
+                    onDragStart={(event) => onDragStart(event, 'start')} 
+                    draggable
+                >
+                    Start
+                </div>
+                <div 
+                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
                     onDragStart={(event) => onDragStart(event, 'task')} 
                     draggable
                 >
@@ -43,33 +50,21 @@ const ShapesPanel = () => {
                 >
                     Decision
                 </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'startEnd')} 
-                    draggable
-                >
-                    Start/End
-                </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'document')} 
-                    draggable
-                >
-                    Document
-                </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'database')} 
-                    draggable
-                >
-                    Database
-                </div>
+                
+                
                 <div 
                     className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
                     onDragStart={(event) => onDragStart(event, 'subProcess')} 
                     draggable
                 >
                     Sub-process
+                </div>
+                <div 
+                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
+                    onDragStart={(event) => onDragStart(event, 'end')} 
+                    draggable
+                >
+                    End
                 </div>
             </div>
       </aside>

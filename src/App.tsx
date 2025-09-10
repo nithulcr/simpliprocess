@@ -19,10 +19,9 @@ import 'reactflow/dist/style.css';
 import { useHistory } from './hooks/useHistory';
 import TaskNode from './components/nodes/TaskNode';
 import DecisionNode from './components/nodes/DecisionNode';
-import StartEndNode from './components/nodes/StartEndNode';
-import DocumentNode from './components/nodes/DocumentNode';
-import DatabaseNode from './components/nodes/DatabaseNode';
 import SubProcessNode from './components/nodes/SubProcessNode';
+import StartNode from './components/nodes/StartNode';
+import EndNode from './components/nodes/EndNode';
 import Toolbar from './components/Toolbar';
 import ShapesPanel from './components/ShapesPanel';
 import FormatPanel from './components/FormatPanel';
@@ -30,7 +29,7 @@ import FormatPanel from './components/FormatPanel';
 const initialNodes = [
   {
     id: '1',
-    type: 'startEnd',
+    type: 'start',
     data: { label: 'Start' },
     position: { x: 450, y: 50 },
   },
@@ -54,11 +53,10 @@ const App = () => {
   const nodeTypes = useMemo(() => ({ 
       task: TaskNode, 
       decision: DecisionNode, 
-      startEnd: StartEndNode,
-      document: DocumentNode,
-      database: DatabaseNode,
+      start: StartNode, // Changed from startEnd
+      end: EndNode,     // Added new EndNode
       subProcess: SubProcessNode,
-  }), []);
+  }), []); // Removed document and database
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, nodes: applyNodeChanges(changes, current.nodes) }));
@@ -136,7 +134,7 @@ const App = () => {
         <Toolbar onUndo={undo} onRedo={redo} canUndo={canUndo} canRedo={canRedo} />
         <div className="flex flex-1 h-full overflow-hidden">
             <ShapesPanel />
-            <main className="flex-1 h-full" ref={flowWrapper}>
+            <main className="flex-1 h-full" ref={flowWrapper} style={{ pointerEvents: 'all' }}>
                 <ReactFlow
                     nodes={state.nodes}
                     edges={state.edges}

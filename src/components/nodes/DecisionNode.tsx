@@ -1,22 +1,22 @@
 
 import { memo } from 'react';
 import { Handle, Position } from 'reactflow';
+import type { NodeProps } from 'reactflow';
 
-const DecisionNode = ({ data }: { data: { label: string; color?: string } }) => {
-  const style = {
-    borderColor: data.color || '#22c55e', // default green-500
-    backgroundColor: 'white',
-  };
+interface DecisionNodeData {
+  label: string;
+  color?: string;
+  width?: number;
+  height?: number;
+  textColor?: string;
+}
 
+const DecisionNode = ({ id, data, selected, isConnectable }: NodeProps<DecisionNodeData>) => {
   return (
-    <div style={style} className="border-2 w-36 h-36 flex items-center justify-center transform rotate-45">
-        <div className="transform -rotate-45 text-center">
-            {data.label || 'Decision'}
-        </div>
-      <Handle type="target" position={Position.Top} id="a" className="!top-[-5px] w-2 h-2 !bg-gray-500" />
-      <Handle type="source" position={Position.Right} id="b" className="!right-[-5px] w-2 h-2 !bg-gray-500" />
-      <Handle type="source" position={Position.Bottom} id="c" className="!bottom-[-5px] w-2 h-2 !bg-gray-500" />
-      <Handle type="target" position={Position.Left} id="d" className="!left-[-5px] w-2 h-2 !bg-gray-500" />
+    <div className="react-flow__node-custom text-center" style={{ '--node-bg-color': data.color || '#fffbe0', '--node-text-color': data.textColor || '#854d0e', borderRadius: 4, border: selected ? '2px solid #787878' : '1px solid #333', padding: '10px', transform: 'rotate(45deg)', width: data.width || 100, height: data.height || 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
+      <div className='text-center' style={{   transform: 'rotate(-45deg)'  }}>{data.label}</div>
+      <Handle type="source" position={Position.Bottom} isConnectable={isConnectable} />
     </div>
   );
 };
