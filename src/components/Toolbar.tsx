@@ -1,16 +1,25 @@
 
 
+import { Button, Navbar, Image } from 'react-bootstrap';
+
 const Toolbar = ({ onUndo, onRedo, canUndo, canRedo }: { onUndo: () => void; onRedo: () => void; canUndo: boolean; canRedo: boolean }) => {
   return (
-    <div className="w-full bg-gray-100 border-b border-gray-200 p-2 flex items-center space-x-2">
-        <button onClick={onUndo} disabled={!canUndo} className="px-3 py-1 bg-gray-200 rounded-md font-semibold text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
-            Undo
-        </button>
-        <button onClick={onRedo} disabled={!canRedo} className="px-3 py-1 bg-gray-200 rounded-md font-semibold text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
-            Redo
-        </button>
-    </div>
+    <Navbar bg="light" expand="lg" className="p-2 border-bottom justify-content-between">
+      <Navbar.Brand href="#">
+        <Image src="/logo.png" height="45" className="d-inline-block align-top" alt="SimpliProcess Logo" />
+      </Navbar.Brand>
+      <div>
+        <Button variant="secondary" onClick={onUndo} disabled={!canUndo} className="me-2">
+          Undo
+        </Button>
+        <Button variant="secondary" onClick={onRedo} disabled={!canRedo}>
+          Redo
+        </Button>
+      </div>
+    </Navbar>
   );
 };
+
+
 
 export default Toolbar;

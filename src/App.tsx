@@ -43,8 +43,10 @@ const getId = () => `${id++}`;
 const App = () => {
   const flowWrapper = useRef(null);
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
+  const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
   const { state, setState, undo, redo, canUndo, canRedo } = useHistory({ nodes: initialNodes, edges: initialEdges });
   const reactFlowInstance = useRef<ReactFlowInstance | null>(null);
+  const [edgeType, setEdgeType] = useState('default');
 
   const setReactFlowInstance = useCallback((instance: ReactFlowInstance) => {
     reactFlowInstance.current = instance;
@@ -66,8 +68,9 @@ const App = () => {
   }, [setState]);
 
   const onConnect = useCallback((connection: Connection) => {
-    setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, edges: addEdge(connection, current.edges) }));
-  }, [setState]);
+    const newEdge = { ...connection, type: edgeType, id: getId() };
+    setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, edges: addEdge(newEdge, current.edges) }));
+  }, [setState, edgeType]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -99,16 +102,30 @@ const App = () => {
 
   const onNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
     setSelectedNode(node);
+    setSelectedEdge(null);
+  }, []);
+
+  const onEdgeClick = useCallback((_event: React.MouseEvent, edge: Edge) => {
+    setSelectedEdge(edge);
+    setSelectedNode(null);
   }, []);
 
   const onPaneClick = useCallback(() => {
       setSelectedNode(null);
+      setSelectedEdge(null);
   }, []);
 
   const onNodeDataChange = (id: string, data: any) => {
     setState((current: { nodes: Node[]; edges: Edge[] }) => ({
         ...current,
         nodes: current.nodes.map(node => node.id === id ? { ...node, data: { ...node.data, ...data } } : node)
+    }));
+  }
+
+  const onEdgeDataChange = (id: string, data: any) => {
+    setState((current: { nodes: Node[]; edges: Edge[] }) => ({
+        ...current,
+        edges: current.edges.map(edge => edge.id === id ? { ...edge, ...data } : edge)
     }));
   }
 
@@ -130,11 +147,11 @@ const App = () => {
   }, [undo, redo]);
 
   return (
-    <div className="flex flex-col h-screen w-screen text-gray-800">
+    <div className="d-flex flex-column vh-100 vw-100 text-dark">
         <Toolbar onUndo={undo} onRedo={redo} canUndo={canUndo} canRedo={canRedo} />
-        <div className="flex flex-1 h-full overflow-hidden">
-            <ShapesPanel />
-            <main className="flex-1 h-full" ref={flowWrapper} style={{ pointerEvents: 'all' }}>
+        <div className="d-flex flex-grow-1 overflow-hidden">
+            <ShapesPanel edgeType={edgeType} setEdgeType={setEdgeType} />
+            <main className="flex-grow-1 h-100" ref={flowWrapper} style={{ pointerEvents: 'all' }}>
                 <ReactFlow
                     nodes={state.nodes}
                     edges={state.edges}
@@ -145,6 +162,7 @@ const App = () => {
                     onDrop={onDrop}
                     onDragOver={onDragOver}
                     onNodeClick={onNodeClick}
+                    onEdgeClick={onEdgeClick}
                     onPaneClick={onPaneClick}
                     nodeTypes={nodeTypes}
                     fitView
@@ -154,7 +172,7 @@ const App = () => {
                     <Background />
                 </ReactFlow>
             </main>
-            <FormatPanel node={selectedNode} onNodeDataChange={onNodeDataChange} />
+            <FormatPanel node={selectedNode} edge={selectedEdge} onNodeDataChange={onNodeDataChange} onEdgeDataChange={onEdgeDataChange} />
         </div>
     </div>
   );

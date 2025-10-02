@@ -1,71 +1,77 @@
 import { useState } from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon } from './icons';
 
-const ShapesPanel = () => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
+const shapes = [
+    { value: 'start', label: 'Start', icon: <StartIcon /> },
+    { value: 'task', label: 'Task', icon: <TaskIcon /> },
+    { value: 'decision', label: 'Decision', icon: <DecisionIcon /> },
+    { value: 'subProcess', label: 'Sub-process', icon: <SubProcessIcon /> },
+    { value: 'end', label: 'End', icon: <EndIcon /> },
+];
+
+const edgeTypes = [
+    { value: 'default', label: 'Default', icon: <DefaultEdgeIcon /> },
+    { value: 'straight', label: 'Straight', icon: <StraightEdgeIcon /> },
+    { value: 'step', label: 'Step', icon: <StepEdgeIcon /> },
+    { value: 'smoothstep', label: 'Smooth Step', icon: <SmoothStepEdgeIcon /> },
+];
+
+const ShapesPanel = ({ edgeType, setEdgeType }: { edgeType: string; setEdgeType: (type: string) => void }) => {
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
     const onDragStart = (event: React.DragEvent, nodeType: string) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
         event.dataTransfer.effectAllowed = 'move';
     };
 
-    if (isCollapsed) {
-        return (
-            <div className="bg-gray-100 border-r border-gray-200">
-                <button onClick={() => setIsCollapsed(false)} className="p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </button>
-            </div>
-        )
-    }
-
     return (
-        <aside className="w-64 bg-gray-100 p-4 border-r border-gray-200 flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg font-semibold">Shapes</h2>
-                <button onClick={() => setIsCollapsed(true)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                </button>
+        <aside className={`bg-light border-end d-flex flex-column p-3 overflow-auto ${isCollapsed ? 'align-items-center' : ''}`} style={{ width: isCollapsed ? '80px' : '250px', transition: 'width 0.3s' }}>
+            <div className={`d-flex ${isCollapsed ? 'flex-column' : 'justify-content-between'} align-items-center mb-4 w-100`}>
+                {!isCollapsed && <h2 className="h5">Welcome Back</h2>}
+                <Button onClick={() => setIsCollapsed(!isCollapsed)} variant="light">
+                    {isCollapsed ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                    )}
+                </Button>
             </div>
             
-            <h3 className="font-medium text-gray-600 text-sm mb-2">Flowchart</h3>
-            <div className="space-y-2">
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'start')} 
-                    draggable
-                >
-                    Start
-                </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'task')} 
-                    draggable
-                >
-                    Task
-                </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'decision')} 
-                    draggable
-                >
-                    Decision
-                </div>
-                
-                
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'subProcess')} 
-                    draggable
-                >
-                    Sub-process
-                </div>
-                <div 
-                    className="p-3 border border-gray-300 bg-white rounded-md cursor-grab text-center font-medium" 
-                    onDragStart={(event) => onDragStart(event, 'end')} 
-                    draggable
-                >
-                    End
-                </div>
+            {!isCollapsed && <h6 className="text-muted">Flowchart</h6>}
+            <div className="d-grid gap-2 w-100">
+                {shapes.map((shape) => (
+                    <Card 
+                        key={shape.value} 
+                        className={`p-2 d-flex flex-row align-items-center ${isCollapsed ? 'justify-content-center' : ''}`}
+                        onDragStart={(event) => onDragStart(event, shape.value)} 
+                        draggable
+                    >
+                        {shape.icon}
+                        {!isCollapsed && <span className="ms-2">{shape.label}</span>}
+                    </Card>
+                ))}
+            </div>
+
+            {!isCollapsed && <h6 className="text-muted mt-4">Edge Type</h6>}
+           {isCollapsed && <span className="bg-primary mt-3" style={{ height: '0.06rem', display: 'block', width: '100%' }}></span>}
+
+
+            <div className="d-grid gap-2 w-100 mt-3">
+                {edgeTypes.map((type) => (
+                    <Card 
+                        key={type.value} 
+                        className={`p-2 d-flex flex-row align-items-center ${isCollapsed ? 'justify-content-center' : ''} ${edgeType === type.value ? 'border-primary' : ''}`}
+                        onClick={() => setEdgeType(type.value)}
+                    >
+                        {type.icon}
+                        {!isCollapsed && <span className="ms-2">{type.label}</span>}
+                    </Card>
+                ))}
             </div>
       </aside>
     );

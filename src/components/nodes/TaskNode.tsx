@@ -29,7 +29,7 @@ const TaskNode = ({ id, data, selected, isConnectable }: NodeProps<TaskNodeData>
       }}
     >
       <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
-      <div className="text-center" style={{ width: '100%' }}>
+      <div className="text-center" style={{ width: '100%', fontSize: data.fontSize || 12 }}>
         {data.label || 'Task'}
       </div>
       <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
