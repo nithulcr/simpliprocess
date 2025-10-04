@@ -24,3 +24,6 @@ html, body, #root {
   background-color: inherit !important; /* Ensure inner div doesn't override */
   color: inherit !important; /* Ensure inner div doesn't override */
 }
+.react-flow__panel.react-flow__attribution.bottom.right {
+    display: none;
+}

@@ -6,22 +6,25 @@ interface SubProcessNodeData {
   label: string;
   color?: string;
   textColor?: string;
+  fontSize?: number;
 }
 
-const SubProcessNode = ({ id, data, selected, isConnectable }: NodeProps<SubProcessNodeData>) => { // @ts-ignore
+const SubProcessNode = (props: NodeProps<SubProcessNodeData>) => {
   const style = {
-    borderColor: data.color || '#64748b', // default slate-500
-    '--node-bg-color': data.color || '#f3e8ff',
-    '--node-text-color': data.textColor || '#581c87',
+    borderColor: 'var(--node-text-color)',
+    '--node-bg-color': props.data.color || '#f3e8ff',
+    '--node-text-color': props.data.textColor || '#581c87',
   };
 
   return (
     <div style={style} className="react-flow__node-custom border-2 rounded-md p-4 w-48 relative">
-      <div style={{ borderColor: data.color || '#64748b' }} className="absolute top-0 left-1 bottom-0 w-full h-full border-l-2"></div>
-      <div style={{ borderColor: data.color || '#64748b' }} className="absolute top-0 right-1 bottom-0 w-full h-full border-r-2"></div>
-      <div style={{ position: 'relative', zIndex: 1, fontSize: data.fontSize || 12 }}>{data.label || 'Sub-process'}</div>
-      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
+      <div style={{ borderColor: 'var(--node-text-color)' }} className="absolute top-0 left-1 bottom-0 w-full h-full border-l-2"></div>
+      <div style={{ borderColor: 'var(--node-text-color)' }} className="absolute top-0 right-1 bottom-0 w-full h-full border-r-2"></div>
+      <Handle type="target" position={Position.Top} id="top" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <Handle type="target" position={Position.Right} id="right" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <div style={{ position: 'relative', zIndex: 1, fontSize: props.data.fontSize || 12 }}>{props.data.label || 'Sub-process'}</div>
+      <Handle type="source" position={Position.Bottom} id="bottom" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <Handle type="source" position={Position.Left} id="left" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
     </div>
   );
 };

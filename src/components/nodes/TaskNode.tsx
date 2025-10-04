@@ -8,19 +8,20 @@ interface TaskNodeData {
   width?: number;
   height?: number;
   textColor?: string;
+  fontSize?: number;
 }
 
-const TaskNode = ({ id, data, selected, isConnectable }: NodeProps<TaskNodeData>) => {
+const TaskNode = (props: NodeProps<TaskNodeData>) => {
   return (
     <div
       className="react-flow__node-custom text-center"
       style={{
-        '--node-bg-color': data.color || '#e0f2fe',
-        '--node-text-color': data.textColor || '#0c4a6e',
-        border: selected ? '2px solid #787878' : '1px solid #333',
+        '--node-bg-color': props.data.color || '#e0f2fe',
+        '--node-text-color': props.data.textColor || '#0c4a6e',
+        border: props.selected ? '1px solid #787878' : '1px solid var(--node-text-color)',
         padding: 10,
-        width: data.width || 100,
-        height: data.height || 100,
+        width: props.data.width || 100,
+        height: props.data.height || 100,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -28,11 +29,13 @@ const TaskNode = ({ id, data, selected, isConnectable }: NodeProps<TaskNodeData>
         borderRadius: 4,
       }}
     >
-      <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
-      <div className="text-center" style={{ width: '100%', fontSize: data.fontSize || 12 }}>
-        {data.label || 'Task'}
+      <Handle type="target" position={Position.Top} id="top" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <Handle type="target" position={Position.Right} id="right" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <div className="text-center" style={{ width: '100%', fontSize: props.data.fontSize || 12 }}>
+        {props.data.label || 'Task'}
       </div>
-      <Handle type="source" position={Position.Bottom} className="w-2 h-2 !bg-gray-500" isConnectable={isConnectable} />
+      <Handle type="source" position={Position.Bottom} id="bottom" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
+      <Handle type="source" position={Position.Left} id="left" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />
     </div>
   );
 };

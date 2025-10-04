@@ -3,18 +3,18 @@ import { Card, Button } from 'react-bootstrap';
 import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon } from './icons';
 
 const shapes = [
-    { value: 'start', label: 'Start', icon: <StartIcon /> },
-    { value: 'task', label: 'Task', icon: <TaskIcon /> },
-    { value: 'decision', label: 'Decision', icon: <DecisionIcon /> },
-    { value: 'subProcess', label: 'Sub-process', icon: <SubProcessIcon /> },
-    { value: 'end', label: 'End', icon: <EndIcon /> },
+    { value: 'start', label: 'Start', icon: <StartIcon strokeWidth={1} /> },
+    { value: 'task', label: 'Task', icon: <TaskIcon strokeWidth={1} /> },
+    { value: 'decision', label: 'Decision', icon: <DecisionIcon strokeWidth={1} /> },
+    { value: 'subProcess', label: 'Sub-process', icon: <SubProcessIcon strokeWidth={1} /> },
+    { value: 'end', label: 'End', icon: <EndIcon strokeWidth={1} /> },
 ];
 
 const edgeTypes = [
-    { value: 'default', label: 'Default', icon: <DefaultEdgeIcon /> },
-    { value: 'straight', label: 'Straight', icon: <StraightEdgeIcon /> },
-    { value: 'step', label: 'Step', icon: <StepEdgeIcon /> },
-    { value: 'smoothstep', label: 'Smooth Step', icon: <SmoothStepEdgeIcon /> },
+    { value: 'default', label: 'Default', icon: <DefaultEdgeIcon strokeWidth={1} /> },
+    { value: 'straight', label: 'Straight', icon: <StraightEdgeIcon strokeWidth={1} /> },
+    { value: 'step', label: 'Step', icon: <StepEdgeIcon strokeWidth={1} /> },
+    { value: 'smoothstep', label: 'Smooth Step', icon: <SmoothStepEdgeIcon strokeWidth={1} /> },
 ];
 
 const ShapesPanel = ({ edgeType, setEdgeType }: { edgeType: string; setEdgeType: (type: string) => void }) => {

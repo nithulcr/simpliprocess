@@ -1,6 +1,7 @@
 
 
 import { Button, Navbar, Image } from 'react-bootstrap';
+import { ArrowCounterclockwise, ArrowClockwise } from 'react-bootstrap-icons';
 
 const Toolbar = ({ onUndo, onRedo, canUndo, canRedo }: { onUndo: () => void; onRedo: () => void; canUndo: boolean; canRedo: boolean }) => {
   return (
@@ -10,16 +11,16 @@ const Toolbar = ({ onUndo, onRedo, canUndo, canRedo }: { onUndo: () => void; onR
       </Navbar.Brand>
       <div>
         <Button variant="secondary" onClick={onUndo} disabled={!canUndo} className="me-2">
-          Undo
+          <ArrowCounterclockwise />
         </Button>
         <Button variant="secondary" onClick={onRedo} disabled={!canRedo}>
-          Redo
+          <ArrowClockwise />
         </Button>
       </div>
     </Navbar>
   );
 };
 
-
-
 export default Toolbar;
+
+
