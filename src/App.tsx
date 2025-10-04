@@ -70,15 +70,26 @@ const App = () => {
   }, [setState]);
 
   const onConnect = useCallback((connection: Connection) => {
-    let newEdge: Edge;
-    if (edgeType === 'dashed') {
-        newEdge = { ...connection, type: 'smoothstep', style: { strokeDasharray: '5 5' }, id: getId() };
-    } else if (edgeType === 'dotted') {
-        newEdge = { ...connection, type: 'smoothstep', style: { strokeDasharray: '1 5' }, id: getId() };
-    } else {
-        newEdge = { ...connection, type: edgeType, id: getId() };
+    if (connection.source && connection.target) {
+        const newEdge: Edge = {
+            id: getId(),
+            source: connection.source,
+            target: connection.target,
+            sourceHandle: connection.sourceHandle,
+            targetHandle: connection.targetHandle,
+            type: edgeType,
+        };
+
+        if (edgeType === 'dashed') {
+            newEdge.style = { strokeDasharray: '5 5' };
+            newEdge.type = 'smoothstep';
+        } else if (edgeType === 'dotted') {
+            newEdge.style = { strokeDasharray: '1 5' };
+            newEdge.type = 'smoothstep';
+        }
+
+        setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, edges: addEdge(newEdge, current.edges) }));
     }
-    setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, edges: addEdge(newEdge, current.edges) }));
   }, [setState, edgeType]);
 
   const onDragOver = useCallback((event: React.DragEvent) => {
