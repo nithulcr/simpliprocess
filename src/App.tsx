@@ -70,7 +70,14 @@ const App = () => {
   }, [setState]);
 
   const onConnect = useCallback((connection: Connection) => {
-    const newEdge = { ...connection, type: edgeType, id: getId() };
+    let newEdge: Edge;
+    if (edgeType === 'dashed') {
+        newEdge = { ...connection, type: 'smoothstep', style: { strokeDasharray: '5 5' }, id: getId() };
+    } else if (edgeType === 'dotted') {
+        newEdge = { ...connection, type: 'smoothstep', style: { strokeDasharray: '1 5' }, id: getId() };
+    } else {
+        newEdge = { ...connection, type: edgeType, id: getId() };
+    }
     setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, edges: addEdge(newEdge, current.edges) }));
   }, [setState, edgeType]);
 

@@ -88,7 +88,7 @@ const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node:
     }
 
     return (
-        <aside className="bg-light p-3 border-start" style={{width: '300px'}}>
+        <aside className="bg-light p-3 border-start overflow-auto" style={{width: '300px'}}>
             <div className="d-flex justify-content-between align-items-center">
                 <h2 className="h5">Format</h2>
                 <Button onClick={() => setIsCollapsed(true)} variant="light">

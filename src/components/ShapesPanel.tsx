@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon, ImageIcon } from './icons';
+import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon, ImageIcon, DashedEdgeIcon, DottedEdgeIcon } from './icons';
 
 const shapes = [
     { value: 'start', label: 'Start', icon: <StartIcon strokeWidth={1} /> },
@@ -16,6 +16,8 @@ const edgeTypes = [
     { value: 'straight', label: 'Straight', icon: <StraightEdgeIcon strokeWidth={1} /> },
     { value: 'step', label: 'Step', icon: <StepEdgeIcon strokeWidth={1} /> },
     { value: 'smoothstep', label: 'Smooth Step', icon: <SmoothStepEdgeIcon strokeWidth={1} /> },
+    { value: 'dashed', label: 'Dashed', icon: <DashedEdgeIcon strokeWidth={1} /> },
+    { value: 'dotted', label: 'Dotted', icon: <DottedEdgeIcon strokeWidth={1} /> },
 ];
 
 const ShapesPanel = ({ edgeType, setEdgeType }: { edgeType: string; setEdgeType: (type: string) => void }) => {
