@@ -7,6 +7,7 @@ const defaultColors = ['#ffffff', '#f3f4f6', '#fee2e2', '#dcfce7', '#e0f2fe'];
 const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node: Node | null; edge: Edge | null; onNodeDataChange: (id: string, data: any) => void; onEdgeDataChange: (id: string, data: any) => void }) => {
     const [label, setLabel] = useState(node?.data?.label || edge?.label || '');
     const [fontSize, setFontSize] = useState(node?.data?.fontSize || edge?.style?.fontSize || 12);
+    const [imageSrc, setImageSrc] = useState(node?.data?.src || '');
     const [colorTarget, setColorTarget] = useState('background');
     const [animated, setAnimated] = useState(edge?.animated || false);
     const [isCollapsed, setIsCollapsed] = useState(false);
@@ -14,7 +15,11 @@ const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node:
     useEffect(() => {
         setLabel(node?.data?.label || edge?.label || '');
         setFontSize(node?.data?.fontSize || edge?.style?.fontSize || 12);
+        setImageSrc(node?.data?.src || '');
         setAnimated(edge?.animated || false);
+        if (node?.type === 'image') {
+            setColorTarget('text');
+        }
     }, [node, edge]);
 
     const onLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +39,21 @@ const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node:
             onNodeDataChange(node.id, { fontSize: newFontSize });
         } else if (edge) {
             onEdgeDataChange(edge.id, { style: { fontSize: newFontSize } });
+        }
+    }
+
+    const onImageFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const newSrc = e.target?.result as string;
+                setImageSrc(newSrc);
+                if (node) {
+                    onNodeDataChange(node.id, { src: newSrc });
+                }
+            };
+            reader.readAsDataURL(file);
         }
     }
 
@@ -82,6 +102,21 @@ const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node:
                 <p className="small text-muted mt-4">Select a step to see its properties.</p>
             ) : (
                 <Accordion defaultActiveKey="0" alwaysOpen className="mt-4">
+                    {node && node.type === 'image' && (
+                        <Accordion.Item eventKey="2">
+                            <Accordion.Header>Image</Accordion.Header>
+                            <Accordion.Body>
+                                <Form.Group>
+                                    <Form.Label>Image</Form.Label>
+                                    <Form.Control 
+                                        type="file" 
+                                        accept="image/*"
+                                        onChange={onImageFileChange}
+                                    />
+                                </Form.Group>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    )}
                     <Accordion.Item eventKey="0">
                         <Accordion.Header>Text</Accordion.Header>
                         <Accordion.Body>
@@ -107,16 +142,17 @@ const FormatPanel = ({ node, edge, onNodeDataChange, onEdgeDataChange }: { node:
                         <Accordion.Item eventKey="1">
                             <Accordion.Header>Style</Accordion.Header>
                             <Accordion.Body>
-                                <Form.Group>
-                                    <Form.Check 
-                                        type="radio" 
-                                        name="colorTarget"
-                                        value="background"
-                                        label="Background"
-                                        checked={colorTarget === 'background'}
-                                        onChange={() => setColorTarget('background')}
-                                    />
-                                    <Form.Check 
+                                                                <Form.Group>
+                                                                    {node.type !== 'image' && (
+                                                                        <Form.Check 
+                                                                            type="radio" 
+                                                                            name="colorTarget"
+                                                                            value="background"
+                                                                            label="Background"
+                                                                            checked={colorTarget === 'background'}
+                                                                            onChange={() => setColorTarget('background')}
+                                                                        />
+                                                                    )}                                    <Form.Check 
                                         type="radio" 
                                         name="colorTarget"
                                         value="text"

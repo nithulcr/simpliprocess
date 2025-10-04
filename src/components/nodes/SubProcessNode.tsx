@@ -14,10 +14,11 @@ const SubProcessNode = (props: NodeProps<SubProcessNodeData>) => {
     borderColor: 'var(--node-text-color)',
     '--node-bg-color': props.data.color || '#f3e8ff',
     '--node-text-color': props.data.textColor || '#581c87',
+    border: props.selected ? '1px solid #787878' : '1px solid var(--node-text-color)',
   };
 
   return (
-    <div style={style} className="react-flow__node-custom border-2 rounded-md p-4 w-48 relative">
+    <div style={style} className="react-flow__node-custom rounded-md p-4 w-48 relative">
       <div style={{ borderColor: 'var(--node-text-color)' }} className="absolute top-0 left-1 bottom-0 w-full h-full border-l-2"></div>
       <div style={{ borderColor: 'var(--node-text-color)' }} className="absolute top-0 right-1 bottom-0 w-full h-full border-r-2"></div>
       <Handle type="target" position={Position.Top} id="top" className="w-2 h-2 !bg-gray-500" isConnectable={props.isConnectable} />

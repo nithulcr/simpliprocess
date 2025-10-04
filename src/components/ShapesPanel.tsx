@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon } from './icons';
+import { StartIcon, TaskIcon, DecisionIcon, SubProcessIcon, EndIcon, DefaultEdgeIcon, StraightEdgeIcon, StepEdgeIcon, SmoothStepEdgeIcon, ImageIcon } from './icons';
 
 const shapes = [
     { value: 'start', label: 'Start', icon: <StartIcon strokeWidth={1} /> },
@@ -8,6 +8,7 @@ const shapes = [
     { value: 'decision', label: 'Decision', icon: <DecisionIcon strokeWidth={1} /> },
     { value: 'subProcess', label: 'Sub-process', icon: <SubProcessIcon strokeWidth={1} /> },
     { value: 'end', label: 'End', icon: <EndIcon strokeWidth={1} /> },
+    { value: 'image', label: 'Image', icon: <ImageIcon strokeWidth={1} /> },
 ];
 
 const edgeTypes = [

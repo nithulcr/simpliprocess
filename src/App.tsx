@@ -22,6 +22,7 @@ import DecisionNode from './components/nodes/DecisionNode';
 import SubProcessNode from './components/nodes/SubProcessNode';
 import StartNode from './components/nodes/StartNode';
 import EndNode from './components/nodes/EndNode';
+import ImageNode from './components/nodes/ImageNode';
 import Toolbar from './components/Toolbar';
 import ShapesPanel from './components/ShapesPanel';
 import FormatPanel from './components/FormatPanel';
@@ -58,7 +59,8 @@ const App = () => {
       start: StartNode, // Changed from startEnd
       end: EndNode,     // Added new EndNode
       subProcess: SubProcessNode,
-  }), []); // Removed document and database
+      image: ImageNode,
+  }), []);
 
   const onNodesChange = useCallback((changes: NodeChange[]) => {
     setState((current: { nodes: Node[]; edges: Edge[] }) => ({ ...current, nodes: applyNodeChanges(changes, current.nodes) }));
